@@ -1,0 +1,1 @@
+enum ItemCategory {book,magazine,dvd}
