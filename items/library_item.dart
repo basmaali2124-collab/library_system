@@ -1,25 +1,21 @@
 import '../searchable.dart';
-import 'item_category.dart';
-import 'item_status.dart';
 import '../validation_helper.dart';
+import '../enums.dart';
 
 abstract class LibraryItem with Searchable implements Comparable<LibraryItem> {
   static int _counter = 0;
   final int _id;
-  String _title;
-  int _publishYear;
-  ItemCategory _category;
-  ItemStatus _status;
+  String title;
+  int publishYear;
+  ItemCategory category;
+  ItemStatus status;
 
   LibraryItem({
-    required String title,
-    required int publishYear,
-    required ItemCategory category,
-  })  : _id = ++_counter,
-        _title = title,
-        _category = category,
-        _status = ItemStatus.available,
-        _publishYear = publishYear {
+    required this.title,
+    required this.publishYear,
+    required this.category,
+    this.status= ItemStatus.available
+  })  : _id = ++_counter {
     ValidationHelper.positiveValidation(publishYear, "publish year");
     ValidationHelper.yearValidation(publishYear);
   }
@@ -43,28 +39,17 @@ abstract class LibraryItem with Searchable implements Comparable<LibraryItem> {
   String toString() => "$runtimeType #$id: $title ($publishYear)";
 
   int get id => _id;
-  String get title => _title;
-  int get publishYear => _publishYear;
-  ItemCategory get category => _category;
-  ItemStatus get status => _status;
+  
 
-  set title(String title) {
-    _title = title;
-  }
-
-  set publishYear(int publishYear) {
-    ValidationHelper.positiveValidation(publishYear, "publish year");
-    ValidationHelper.yearValidation(publishYear);
-    _publishYear = publishYear;
-  }
+  
 
   int loanPeriodDays();
   double finePerDay();
   void displayInfo();
 
-  void markBorrowed() => _status = ItemStatus.borrowed;
-  void markReserved() => _status = ItemStatus.reserved;
-  void markAvailable() => _status = ItemStatus.available;
+  void markBorrowed() => status = ItemStatus.borrowed;
+  void markReserved() => status = ItemStatus.reserved;
+  void markAvailable() => status = ItemStatus.available;
 
   bool get isAvailable => status == ItemStatus.available;
 }

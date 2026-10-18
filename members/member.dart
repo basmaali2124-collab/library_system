@@ -1,32 +1,28 @@
 import '../exceptions.dart';
+import '../enums.dart';
 import '../validation_helper.dart';
 import '../loan.dart';
 import '../transaction.dart';
-import 'member_type.dart';
 import 'student_member.dart';
 
 abstract class Member implements Comparable<Member> {
   static int _counter = 0;
 
   final int _id;
-  String _name;
-  String _phone;
-  String _email;
-  MemberType _type;
-  final List<Loan> _loans;
-  final List<Transaction> _transactions;
+  String name;
+  String phone;
+  String email;
+  MemberType type;
+  List<Loan> _loans;
+  List<Transaction> _transactions;
   double _finesBalance;
 
   Member({
-    required String name,
-    required String phone,
-    required String email,
-    required MemberType type,
+    required this.name,
+    required this.phone,
+    required this.email,
+    required this.type,
   })  : _id = ++_counter,
-        _name = name,
-        _phone = phone,
-        _email = email,
-        _type = type,
         _loans = [],
         _transactions = [],
         _finesBalance = 0.0 {
@@ -59,28 +55,11 @@ abstract class Member implements Comparable<Member> {
   String toString() => "$runtimeType #$id ($name)";
 
   int get id => _id;
-  String get name => _name;
-  String get phone => _phone;
-  String get email => _email;
-  MemberType get type => _type;
   List<Loan> get loans => List.unmodifiable(_loans);
   List<Transaction> get transactions => List.unmodifiable(_transactions);
   double get finesBalance => _finesBalance;
 
-  set name(String name) {
-    _name = name;
-  }
-
-  set phone(String phone) {
-    ValidationHelper.phoneVlidation(phone);
-    _phone = phone;
-  }
-
-  set email(String email) {
-    ValidationHelper.emailValidation(email);
-    _email = email;
-  }
-
+  
   void addLoan(Loan loan) => _loans.add(loan);
   void removeLoan(Loan loan) => _loans.remove(loan);
   void recordTransaction(Transaction t) => _transactions.add(t);
@@ -129,10 +108,10 @@ abstract class Member implements Comparable<Member> {
   void displayInfo() {
     print(
       "Member ID : $_id\n"
-      "Type : ${_type.name}\n"
-      "Name : $_name\n"
-      "Phone : $_phone\n"
-      "Email : $_email\n"
+      "Type : ${type.name}\n"
+      "Name : $name\n"
+      "Phone : $phone\n"
+      "Email : $email\n"
       "Loans : ${_loans.isEmpty ? '-' : _loans.join(" , ")}\n"
       "Fines Balance : $_finesBalance",
     );

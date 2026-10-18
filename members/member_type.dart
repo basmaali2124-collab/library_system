@@ -1,1 +1,0 @@
-enum MemberType {studentMember,premiumMember,staffMember}

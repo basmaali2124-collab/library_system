@@ -1,7 +1,7 @@
 
 import '../exceptions.dart';
 import '../members/member.dart';
-import 'item_status.dart';
+import '../enums.dart';
 import 'library_item.dart';
 
 mixin Reserve on LibraryItem {

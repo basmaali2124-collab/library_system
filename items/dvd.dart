@@ -3,36 +3,25 @@
  * use encapsulation concept to protect the data form modification by make it private and use setter/getter
  * use polymorphism by override the abstract methods in LibraryItem and Reservable
  */
-
+import '../enums.dart';
 import '../reservable.dart';
-import 'item_category.dart';
 import 'library_item.dart';
 import '../validation_helper.dart';
 import 'reserve.dart';
 
 class Dvd extends LibraryItem with Reserve implements Reservable {
-   String _director;
-  int _durationMinutes;
+  String director;
+  int durationMinutes;
 
   Dvd({
-    required String title,
-    required int publishYear,
-    required String director,
-    required int durationMinutes})
-    :_director=director,
-    _durationMinutes=durationMinutes,
-    super(title:title,publishYear: publishYear,category: ItemCategory.dvd ){
+    required super.title,
+    required super.publishYear,
+    super.category=ItemCategory.dvd,
+    required this.director,
+    required this.durationMinutes})
+    {
       ValidationHelper.positiveValidation(durationMinutes, "duration minutes");
     }
-  
- String get director=>_director;
- int get durationMinutes => _durationMinutes;
- 
-  set director (String director)=> _director=director;
-  set durationMinutes (int durationMinutes){
-      ValidationHelper.positiveValidation(durationMinutes, "duration minutes");
-    _durationMinutes=durationMinutes;
-  }
  
   @override
  int loanPeriodDays() {

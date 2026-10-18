@@ -5,47 +5,33 @@
  */
 
 import '../reservable.dart';
-import 'item_category.dart';
+import '../enums.dart';
 import 'library_item.dart';
 import '../validation_helper.dart';
 import 'reserve.dart';
 
 class Book extends LibraryItem with Reserve implements Reservable{
-  String _author;
-  String _isbn;
-  int _pages;
+  String author;
+  String isbn;
+  int pages;
 
   Book({
-    required String title,
-    required int publishYear,
-    required String author,
-    required String isbn,
-    required int pages})
-    :_author=author,
-    _isbn=isbn,
-    _pages=pages,
-    super(title:title,publishYear: publishYear,category: ItemCategory.book ){
-       ValidationHelper.positiveValidation(pages, "pages"); }
+    required super.title,
+    required super.publishYear,
+    super.category=ItemCategory.book,
+    required this.author,
+    required this.isbn,
+    required this.pages})
+   { ValidationHelper.positiveValidation(pages, "pages"); }
   
   Book.fromMap(Map<String,dynamic> bookMap)
-      :_author=bookMap['author']as String,
-       _isbn=bookMap['isbn'] as String,
-       _pages=bookMap['pages'] as int ,
+      :author=bookMap['author']as String,
+       isbn=bookMap['isbn'] as String,
+       pages=bookMap['pages'] as int ,
        super(title: bookMap['title']as String,publishYear: bookMap["publishYear"]as int,category: ItemCategory.book ){
           ValidationHelper.positiveValidation(pages, "pages"); 
        }
 
-  
- String get author=>_author;
- String get isbn => _isbn;
- int get pages => _pages;
- 
-  set author (String author)=> _author=author;
-  set isbn (String isbn)=> _isbn=isbn;
-  set pages (int pages) {
-       ValidationHelper.positiveValidation(pages, "pages");    
-    _pages=pages;}
- 
   @override
  int loanPeriodDays() {
     int days=14;

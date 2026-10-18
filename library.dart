@@ -1,11 +1,9 @@
+import 'enums.dart';
 import 'exceptions.dart';
 import 'items/book.dart';
-import 'items/item_category.dart';
-import 'items/item_status.dart';
 import 'items/library_item.dart';
 import 'items/reserve.dart';
 import 'loan.dart';
-import 'loan_status.dart';
 import 'loggable.dart';
 import 'members/member.dart';
 import 'transaction.dart';
@@ -41,14 +39,14 @@ class Library with Loggable {
   void _record(
     Member member,
     TransactionType type, {
-    LibraryItem? item,
-    double? amount,
-    DateTime? date,
+    required int itemId,
+    required double amount,
+    required DateTime date,
   }) {
     final t = Transaction(
       type: type,
       memberId: member.id,
-      itemId: item?.id,
+      itemId: itemId,
       amount: amount,
       date: date,
     );
@@ -143,7 +141,13 @@ class Library with Loggable {
 
     member.addLoan(loan);
     _loans.add(loan);
-    _record(member, TransactionType.borrow, item: item);
+    _record(
+      member,
+      TransactionType.borrow,
+      itemId: item.id,
+      amount: 0.0,
+      date: DateTime.now(),
+    );
 
     log(
       "${member.name} borrowed ${item.title}, "
@@ -180,7 +184,13 @@ class Library with Loggable {
       item.markAvailable();
     }
 
-    _record(member, TransactionType.returnItem, item: item, date: returnDate);
+    _record(
+      member,
+      TransactionType.returnItem,
+      itemId: item.id,
+      amount: 0.0,
+      date: returnDate ?? DateTime.now(),
+    );
 
     log(
       "${member.name} returned ${item.title}, "
@@ -210,7 +220,13 @@ class Library with Loggable {
     }
 
     item.reserve(member);
-    _record(member, TransactionType.reserve, item: item);
+    _record(
+      member,
+      TransactionType.reserve,
+      itemId: item.id,
+      amount: 0.0,
+      date: DateTime.now(),
+    );
     log("${member.name} reserved ${item.title}");
   }
 
@@ -220,7 +236,13 @@ class Library with Loggable {
     }
 
     loan.renew();
-    _record(loan.member, TransactionType.renew, item: loan.item);
+    _record(
+      loan.member,
+      TransactionType.renew,
+      itemId: loan.item.id,
+      amount: 0.0,
+      date: DateTime.now(),
+    );
 
     log(
       "${loan.member.name} renewed ${loan.item.title}, "
@@ -230,7 +252,13 @@ class Library with Loggable {
 
   void payFine(Member member, double amount) {
     member.payFine(amount);
-    _record(member, TransactionType.finePayment, amount: amount);
+    _record(
+      member,
+      TransactionType.finePayment,
+      itemId: 0,
+      amount: amount,
+      date: DateTime.now(),
+    );
     log("${member.name} paid $amount EGP, remaining: ${member.finesBalance}");
   }
 

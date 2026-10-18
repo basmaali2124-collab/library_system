@@ -1,4 +1,4 @@
-import 'items/item_category.dart';
+import 'enums.dart';
 
 mixin Searchable {
   String get title;

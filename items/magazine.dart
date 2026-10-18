@@ -3,9 +3,7 @@
  * use encapsulation concept to protect the data form modification by make it private and use setter/getter
  * use polymorphism by override the abstract methods in LibraryItem 
  */
-
-import 'item_category.dart';
-import 'months.dart';
+import '../enums.dart';
 import 'library_item.dart';
 import '../validation_helper.dart';
 

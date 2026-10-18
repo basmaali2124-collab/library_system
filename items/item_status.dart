@@ -1,1 +1,0 @@
-enum ItemStatus {available, borrowed,reserved}

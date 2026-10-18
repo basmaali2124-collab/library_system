@@ -1,29 +1,19 @@
 
+import '../enums.dart';
 import '../exceptions.dart';
-import 'member_type.dart';
 import 'member.dart';
 
 class PremiumMember extends Member {
-  DateTime _subscriptionEndDate;
+  DateTime subscriptionEndDate;
 
   PremiumMember({
-    required DateTime subscriptionEndDate,
-    required String name,
-    required String phone,
-    required String email,
-  })  : _subscriptionEndDate = subscriptionEndDate,
-        super(
-          name: name,
-          phone: phone,
-          email: email,
-          type: MemberType.premiumMember,
-        );
+    required this.subscriptionEndDate,
+    required super.name,
+    required super.phone,
+    required super.email,
+    super.type=MemberType.premiumMember
+  });
 
-  DateTime get subscriptionEndDate => _subscriptionEndDate;
-
-  set subscriptionEndDate(DateTime subscriptionEndDate) {
-    _subscriptionEndDate = subscriptionEndDate;
-  }
 
   @override
   double discountOnFines() {

@@ -28,7 +28,7 @@ class ValidationHelper {
   }
 
   static void emailValidation(String value) {
-    if (!RegExp(r'^[a-zA-Z][a-zA-Z0-9]*@gmail\.com$')
+    if (!RegExp(r'^[a-zA-Z][a-zA-Z0-9]*@[a-zA-Z][a-zA-Z0-9]\.com$')
         .hasMatch(value)) {
       throw ValidationException("Invalid email");
     }
